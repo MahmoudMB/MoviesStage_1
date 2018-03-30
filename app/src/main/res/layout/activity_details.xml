@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.movieapp.Details"
+    android:background="@color/DetailsBackground"
+    >
+
+
+    <ImageView
+        android:id="@+id/image_detail"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie_Overflow"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:lines="3"
+        android:textColor="@color/DetailsColor"
+        android:layout_below="@+id/image_detail"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif"
+        android:layout_marginStart="10dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/image_detail"
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/image_detail"
+        android:layout_marginStart="8dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_title"
+            android:textColor="@color/DetailsColor"
+            android:textSize="20sp"
+            />
+
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_date"
+            android:textColor="@color/DetailsColor"
+            />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#004D40"
+        android:layout_toRightOf="@+id/image_detail"
+        android:layout_above="@+id/movie_Overflow"
+        android:layout_toEndOf="@+id/image_detail">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/RatingTextView"
+            android:textColor="@color/DetailsColor"
+            android:layout_gravity="center_horizontal"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_rating"
+            android:textColor="@color/DetailsColor"
+            android:layout_gravity="center_horizontal"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

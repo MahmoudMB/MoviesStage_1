@@ -1,0 +1,46 @@
+<resources>
+
+    <string name="app_name">MovieAPP</string>
+
+
+    <!-- Movie DB API Key -->
+
+
+    <string name="ApiKey">37d390e3d5e8ee678ad4b99cebe05ad5</string>
+
+    <string-array name="movieSpinner">
+
+        <item>Popular</item>
+        <item>TopRated</item>
+    </string-array>
+
+    <string name="spinnerPrompt">Choose type of Search</string>
+
+    <string name="Popular">Popular</string>
+
+    <string name="TopRated">TopRated</string>
+    <string name="TopRated_Value">top_rated</string>
+    <string name="Popular_value">popular</string>
+
+
+
+    <string name="MovieObject">MovieObject</string>
+
+
+
+    <!-- Json Parsing -->
+    <string name="originalTitle">original_title</string>
+    <string name="moviePoster">poster_path</string>
+    <string name="plotSynopsis">overview</string>
+    <string name="userRating">vote_average</string>
+    <string name="releaseDate">release_date</string>
+
+
+
+
+
+    <!-- Movies Activity-->
+    <string name="NoInternet">No Internet Connection</string>
+<string name="RatingTextView">Rating</string>
+
+</resources>

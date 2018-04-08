@@ -49,7 +49,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
        final Movie currrentMovie = mData.get(position);
         Log.v("Movie1",currrentMovie.getTitle());
         Picasso.with(mContext).load(currrentMovie.getImage()).into(holder.movieImageView);
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,10 +67,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
     ImageView movieImageView;
+
+
+
     public MyViewHolder(View itemView) {
         super(itemView);
 
         movieImageView = (ImageView)itemView.findViewById(R.id.thumbImage);
+
     }
 
 

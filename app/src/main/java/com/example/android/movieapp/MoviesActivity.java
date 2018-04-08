@@ -13,12 +13,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 
+import com.android.volley.VolleyError;
 import com.example.android.movieapp.models.Movie;
+import com.example.android.movieapp.utils.VolleyCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesActivity extends AppCompatActivity {
+public class MoviesActivity extends AppCompatActivity implements VolleyCallBack {
 
 
 
@@ -50,12 +52,16 @@ private Spinner spinner;
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 
         spinner = (Spinner)findViewById(R.id.Moviespinner);
+        ShowPrograssBar();
 
-        if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+        if(savedInstanceState == null || !savedInstanceState.containsKey("movies"))
+            Utils.getInstance(getApplicationContext()).GetMovies(Popular_value,MoviesActivity.this);
 
-            movies= Utils.getInstance(getApplicationContext()).GetMovies(Popular_value);
-        SetRecyclerView(movies);
+ else {
 
+                movies = savedInstanceState.getParcelableArrayList("movies");
+                SetRecyclerView(movies);
+            }
 
         if (networkInfo != null && networkInfo.isConnected())
         {
@@ -68,14 +74,15 @@ private Spinner spinner;
 
                 if (option.equals(getResources().getString(R.string.Popular)))
                 {
-                    movies= Utils.getInstance(getApplicationContext()).GetMovies(Popular_value);
-                    SetRecyclerView(movies);
+                    ShowPrograssBar();
+                   Utils.getInstance(getApplicationContext()).GetMovies(Popular_value,MoviesActivity.this);
+
 
                 }
                 if (option.equals(getResources().getString(R.string.TopRated)))
-                {
-                    movies= Utils.getInstance(getApplicationContext()).GetMovies(TopRated_Value);
-                    SetRecyclerView(movies);
+                {  ShowPrograssBar();
+                   Utils.getInstance(getApplicationContext()).GetMovies(TopRated_Value,MoviesActivity.this);
+
 
                 }
             }
@@ -94,22 +101,15 @@ private Spinner spinner;
             mNoInternet.setText(getResources().getText(R.string.NoInternet));
         }
 
-        }
-        else {
-
-            movies = savedInstanceState.getParcelableArrayList("movies");
-            SetRecyclerView(movies);
-        }
-
-
     }
 
 
     public void SetRecyclerView( List<com.example.android.movieapp.models.Movie> movies)
     {
+        mRecyclerView.setVisibility(View.VISIBLE);
         movieAdapter = new MovieAdapter(MoviesActivity.this, movies);
         mRecyclerView.setAdapter(movieAdapter);
-       View loadingIndicator = findViewById(R.id.loading_indicator);
+        View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
         mNoInternet.setVisibility(View.GONE);
 
@@ -127,12 +127,12 @@ private Spinner spinner;
     public void ShowPrograssBar(){
 
              mRecyclerView.setVisibility(View.GONE);
-       ProgressBar progressBar = (ProgressBar)findViewById(R.id.loading_indicator);
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.VISIBLE);
 
 
     }
     public void HidePrograssBar(){
-
         mRecyclerView.setVisibility(View.VISIBLE);
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
@@ -140,5 +140,19 @@ private Spinner spinner;
 
 
 
+    @Override
+    public void onSuccess(ArrayList<Movie> movies) {
+this.movies = movies;
+        movieAdapter = new MovieAdapter(MoviesActivity.this, movies);
+        mRecyclerView.setAdapter(movieAdapter);
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+        mNoInternet.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void onError(VolleyError error) {
+
+    }
 }

@@ -71,18 +71,22 @@ public class Utils
 
 
 
-    public  ArrayList<Movie> GetMovies(String option)
+    public  void GetMovies(String option,final VolleyCallBack callback)
     {
 
       final ArrayList<Movie> movies = new ArrayList<Movie>();
       String Url = GetURL(option);
 
 
-        GetJsonObject(Url, context, new VolleyCallBack() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
-            public void onSuccess(String result) {
+            public void onResponse(String response)
+            {
+
                 try {
-                    JSONObject initial = new JSONObject(result);
+                    JSONObject initial = new JSONObject(response);
 
                     JSONArray moviesArray = initial.optJSONArray("results");
                     for (int i = 0; i < moviesArray.length(); i++)
@@ -102,16 +106,19 @@ public class Utils
                     Log.v("Extract Features","",ex);
                 }
 
-            }
 
+                callback.onSuccess(movies);
+            }
+        }, new Response.ErrorListener() {
             @Override
-            public void onError(VolleyError error) {
+            public void onErrorResponse(VolleyError volleyError) {
 
             }
         });
 
-        return movies;
 
+
+        volley.getInstance(context).addToRequestQueue(stringRequest);
 
     }
 
@@ -137,22 +144,7 @@ public class Utils
     public static void GetJsonObject(String url, Context context,final VolleyCallBack callback)
 
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response)
-            {
-                callback.onSuccess(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        });
-
-
-
-        volley.getInstance(context).addToRequestQueue(stringRequest);
     }
 
 

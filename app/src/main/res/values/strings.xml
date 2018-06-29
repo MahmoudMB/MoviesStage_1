@@ -6,12 +6,13 @@
     <!-- Movie DB API Key -->
 
 
-    <string name="ApiKey"></string>
+    <string name="ApiKey">37d390e3d5e8ee678ad4b99cebe05ad5</string>
 
     <string-array name="movieSpinner">
 
         <item>Popular</item>
         <item>TopRated</item>
+        <item>Favourite</item>
     </string-array>
 
     <string name="spinnerPrompt">Choose type of Search</string>

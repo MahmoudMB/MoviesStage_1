@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.movieapp.Details"
@@ -63,15 +69,22 @@
 
 
 
-
-
-
     </LinearLayout>
 
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_above="@+id/ratingLayout"
+    android:text="Fav"
+    android:id="@+id/FavBut"
+    >
 
+</Button>
 
 
     <LinearLayout
+android:id="@+id/ratingLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -101,4 +114,58 @@
     </LinearLayout>
 
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/movie_Overflow"
+    android:orientation="vertical"
+    >
+    <TextView
+
+        android:text="Trailers :"
+        android:layout_width="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/DetailsColor"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/TrailerRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+
+
+
+    <TextView
+
+        android:text="Reviews :"
+        android:layout_width="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/DetailsColor"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ReviewRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/loading_indicator1"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+
+</LinearLayout>
+
+
 </RelativeLayout>
+
+    </ScrollView>

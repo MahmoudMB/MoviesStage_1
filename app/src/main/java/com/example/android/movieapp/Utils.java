@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+import java.util.List;
 /**
  * Created by SG on 3/2/2018.
  */
@@ -97,8 +97,19 @@ public class Utils
                         String date = currentMovie.optString(releaseDate);
                         String synopsis  =currentMovie.optString(plotSynopsis);
                         String imageUrl = siteURL+currentMovie.optString(moviePoster);
+
+
+
+
+                    String movieId =  currentMovie.optString("id");
+
+
+
+
                         Movie movie  = new Movie(title,imageUrl,rating,date,synopsis);
+                        movie.setId(movieId);
                         movies.add(movie);
+
                     }
                 }
                 catch (JSONException ex)
@@ -116,16 +127,134 @@ public class Utils
             }
         });
 
-
-
         volley.getInstance(context).addToRequestQueue(stringRequest);
 
     }
 
 
 
-    public static String GetURL(String option)
 
+
+
+
+
+    public  void GetTrailsAndReviews(String MovieId,final VolleyCallBack callback)
+    {
+
+
+        String Url ="http://api.themoviedb.org/3/movie/"+MovieId+"?api_key=37d390e3d5e8ee678ad4b99cebe05ad5&append_to_response=reviews,videos";
+
+
+final List<String> Reviews = new ArrayList<>();
+        final List<String> Trailers = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response)
+            {
+
+                try {
+                    JSONObject initial = new JSONObject(response);
+
+
+JSONObject ReviewResults = initial.getJSONObject("reviews");
+
+                    JSONArray moviesreviews = ReviewResults.optJSONArray("results");
+                    for (int i = 0; i < moviesreviews.length(); i++)
+                    {
+                        JSONObject currentReview = moviesreviews.optJSONObject(i);
+                        String Author = currentReview.optString("author");
+                        String content = currentReview.optString("content");
+
+
+                     //   String imageUrl = siteURL+currentMovie.optString(moviePoster);
+
+
+
+                        Reviews.add(content);
+
+                    }
+
+
+                 //   Log.v("UtlisReviews",Reviews.get(0));
+                    JSONObject TrailersResults = initial.getJSONObject("videos");
+                    JSONArray moviesTrailers = TrailersResults.optJSONArray("results");
+                    for (int i = 0; i < moviesTrailers.length(); i++)
+                    {
+                        JSONObject currentTrailer = moviesTrailers.optJSONObject(i);
+
+                        String content = currentTrailer.optString("key");
+
+
+                          String YoutubeUrl = "https://www.youtube.com/watch?v="+content;
+
+                        Log.v("UtlisTrails",content);
+                        Trailers.add(YoutubeUrl);
+
+                    }
+
+
+                }
+                catch (JSONException ex)
+                {
+                    Log.v("Extract Features","",ex);
+                }
+
+
+                callback.ReturnReviewsAndTrails(Reviews,Trailers);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
+        volley.getInstance(context).addToRequestQueue(stringRequest);
+
+
+    }
+
+    public static String GetReviewsURL(String movieID){
+
+
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("api.themoviedb.org")
+                .appendPath("3")
+                .appendPath("movie")
+                .appendPath(movieID)
+                .appendPath("reviews")
+                .appendQueryParameter("api_key", ApiKey)
+                .appendQueryParameter("language", "en-US");
+        String myUrl = builder.build().toString();
+        return myUrl;
+
+    }
+
+
+    public static String GetTrailerURL(String movieID)
+    {
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("api.themoviedb.org")
+                .appendPath("3")
+                .appendPath("movie")
+                .appendPath(movieID)
+                .appendPath("videos")
+                .appendQueryParameter("api_key", ApiKey)
+                .appendQueryParameter("language", "en-US");
+
+        String myUrl = builder.build().toString();
+        return myUrl;
+    }
+
+
+
+
+
+    public static String GetURL(String option)
     {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")

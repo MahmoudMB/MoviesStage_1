@@ -27,6 +27,14 @@
 
         </activity>
         <activity android:name=".Details" android:parentActivityName=".MoviesActivity"></activity>
+        
+        
+        <provider
+            android:authorities="com.example.android.movieapp"
+            android:name="com.example.android.movieapp.data.MovieContentProvider"
+            android:exported="true"></provider>
+        
+        
     </application>
 
 </manifest>

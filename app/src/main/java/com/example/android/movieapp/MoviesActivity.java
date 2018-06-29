@@ -13,7 +13,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 
+import android.database.Cursor;
+
 import com.android.volley.VolleyError;
+import com.example.android.movieapp.data.DBHelper;
+import com.example.android.movieapp.data.contract;
 import com.example.android.movieapp.models.Movie;
 import com.example.android.movieapp.utils.VolleyCallBack;
 
@@ -29,6 +33,7 @@ public class MoviesActivity extends AppCompatActivity implements VolleyCallBack 
    private MovieAdapter movieAdapter;
    ArrayList<Movie> movies;
     private TextView mNoInternet;
+    private DBHelper helper;
 private Spinner spinner;
 
 
@@ -38,11 +43,12 @@ private Spinner spinner;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        helper = new DBHelper(getApplicationContext());
 
         final String TopRated_Value=  getResources().getString(R.string.TopRated_Value);
         final String Popular_value=  getResources().getString(R.string.Popular_value);
 
-        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         mNoInternet = (TextView)findViewById(R.id.TextNoInternet);
@@ -82,9 +88,20 @@ private Spinner spinner;
                 if (option.equals(getResources().getString(R.string.TopRated)))
                 {  ShowPrograssBar();
                    Utils.getInstance(getApplicationContext()).GetMovies(TopRated_Value,MoviesActivity.this);
+                }
 
+
+                if (option.equals("Favourite"))
+                {  ShowPrograssBar();
+
+            Cursor moviesCursor= getContentResolver().query(contract.Favourite.CONTENT_URI,null,null,null,null);
+                    movies = helper.getAllMovies(moviesCursor);
+              SetRecyclerView(movies);
 
                 }
+
+
+
             }
 
             @Override
@@ -115,6 +132,21 @@ private Spinner spinner;
 
     }
 
+
+    @Override
+    protected void onResume() {
+
+
+        String option = spinner.getSelectedItem().toString();
+        if (option.equals("Favourite")) {
+            Cursor moviesCursor = getContentResolver().query(contract.Favourite.CONTENT_URI, null, null, null, null);
+            movies = helper.getAllMovies(moviesCursor);
+            SetRecyclerView(movies);
+
+        }
+
+            super.onResume();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -150,6 +182,14 @@ this.movies = movies;
         mNoInternet.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
+
+
+    @Override
+    public void ReturnReviewsAndTrails(List<String> reviews, List<String> Trails) {
+
+    }
+
+
 
     @Override
     public void onError(VolleyError error) {

@@ -2,21 +2,22 @@ package com.example.android.movieapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import java.util.List;
 /**
  * Created by SG on 3/2/2018.
  */
 
 public class Movie implements Parcelable {
-
+private String id;
     private String mTitle;
     private String mImage;
     private int mUserRating;
     private String mReleaseDate;
     private String mPlotSynopsis;
 
+    private List<String> Trails;
 
-
+   private List<String> Reviews;
 
     public Movie(String mTitle, String mImage, int mUserRating, String mReleaseDate, String mPlotSynopsis) {
         this.mTitle = mTitle;
@@ -32,6 +33,30 @@ public class Movie implements Parcelable {
         mReleaseDate="";
         mUserRating=0;
         mPlotSynopsis="";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<String> getTrails() {
+        return Trails;
+    }
+
+    public void setTrails(List<String> trails) {
+        Trails = trails;
+    }
+
+    public List<String> getReviews() {
+        return Reviews;
+    }
+
+    public void setReviews(List<String> reviews) {
+        Reviews = reviews;
     }
 
     public String getTitle() {
@@ -82,6 +107,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.mTitle);
         dest.writeString(this.mImage);
         dest.writeInt(this.mUserRating);
@@ -93,6 +119,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        this.id = in.readString();
         this.mTitle = in.readString();
         this.mImage = in.readString();
         this.mUserRating=in.readInt();
